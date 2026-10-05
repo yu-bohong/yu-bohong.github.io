@@ -38,6 +38,11 @@ dimensions are intentionally limited by the official usage rules.
 The Projects entry opens the actual GitHub repository list. No fictional project
 or professional biography is presented.
 
+CSS, JavaScript and SVG favicon URLs include a content-version query in
+`index.html`. When changing one of those files, refresh its `?v=` value (a new
+short version string or the file's SHA-256 prefix) so returning visitors receive
+the update immediately instead of using their previous cached asset.
+
 ## Publish
 
 GitHub Pages publishes the `main` branch, `/ (root)`. Commit and push the page
