@@ -25,6 +25,8 @@ python -m http.server 4173 --bind 127.0.0.1
 Open **http://127.0.0.1:4173/**. Stop the server with `Ctrl+C`.
 The page also works with JavaScript disabled; navigation and all content remain
 available. Reduced-motion settings disable reveals, floating and parallax.
+Floating and pointer parallax are limited to devices with a fine pointer;
+touch devices keep the character still and retain the scroll reveals.
 
 ## Maintain
 

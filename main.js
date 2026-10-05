@@ -52,9 +52,15 @@ function configureReveals() {
       }
     }
   }, { threshold: 0.08 });
-  for (const element of revealElements) {
+  // Read geometry together before changing classes to avoid repeated layout work.
+  const viewportHeight = window.innerHeight;
+  const positions = revealElements.map((element) => ({
+    element,
+    inView: element.classList.contains("is-visible") || element.getBoundingClientRect().top < viewportHeight,
+  }));
+  for (const { element, inView } of positions) {
     // Keep content visible when opening a section anchor directly.
-    if (element.getBoundingClientRect().top < window.innerHeight) element.classList.add("is-visible");
+    if (inView) element.classList.add("is-visible");
     else if (!element.classList.contains("is-visible")) {
       element.classList.add("will-reveal");
       revealObserver.observe(element);
@@ -74,7 +80,7 @@ const target = { x: 0, y: 0, scroll: 0 };
 const current = { x: 0, y: 0, scroll: 0 };
 
 function motionEnabled() {
-  return !reducedMotionQuery.matches && !manuallyPaused && !document.hidden;
+  return finePointerQuery.matches && !reducedMotionQuery.matches && !manuallyPaused && !document.hidden;
 }
 
 function updateDepth() {
@@ -106,8 +112,8 @@ function resetDepth() {
 
 function configureMotion() {
   const reduced = reducedMotionQuery.matches;
-  document.documentElement.classList.toggle("motion-paused", reduced || manuallyPaused || !heroVisible || document.hidden);
-  motionButton.hidden = reduced;
+  document.documentElement.classList.toggle("motion-paused", !motionEnabled() || !heroVisible);
+  motionButton.hidden = reduced || !finePointerQuery.matches;
   motionButton.setAttribute("aria-pressed", String(manuallyPaused));
   motionButton.setAttribute("aria-label", manuallyPaused ? "恢复动态，启用人物浮动与视差" : "暂停动态，停止人物浮动与视差");
   motionButton.querySelector("span").textContent = manuallyPaused ? "恢复动态" : "暂停动态";
@@ -148,7 +154,10 @@ reducedMotionQuery.addEventListener("change", () => {
   configureReveals();
   configureMotion();
 });
-finePointerQuery.addEventListener("change", resetDepth);
+finePointerQuery.addEventListener("change", () => {
+  resetDepth();
+  configureMotion();
+});
 document.addEventListener("visibilitychange", configureMotion);
 configureMotion();
 onScroll();

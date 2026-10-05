@@ -90,7 +90,6 @@ p { text-wrap: pretty; }
 .art-orbit::after { content: ""; position: absolute; width: 10px; height: 10px; border-radius: 50%; background: var(--meguru-yellow); left: 14%; top: 14%; }
 .hero-depth { position: absolute; inset: 6% -8% 13% -8%; display: grid; place-items: center; transform: translate3d(var(--pointer-x, 0px), calc(var(--pointer-y, 0px) + var(--scroll-y, 0px)), 0); }
 .portrait-float { width: 100%; max-width: 730px; }
-.js .portrait-float { animation: gentle-float 9s ease-in-out infinite; }
 .hero-portrait { width: 100%; height: 470px; object-fit: cover; object-position: 50% 50%; border-radius: 46% 48% 43% 45%; mask-image: radial-gradient(ellipse 68% 70% at 51% 47%, #000 55%, #000d 70%, transparent 100%); }
 .art-caption { position: absolute; bottom: 48px; left: 10%; display: flex; flex-direction: column; gap: .4rem; }
 .art-caption > span:first-child { font-size: 1rem; letter-spacing: .08em; font-weight: 550; }
@@ -180,6 +179,7 @@ p { text-wrap: pretty; }
 .will-reveal:not(.is-visible) { opacity: 0; transform: translateY(24px); filter: blur(3px); }
 .social-card.will-reveal.is-visible { transition: transform .4s var(--ease-spring), box-shadow .4s, background .3s, opacity .8s, filter .8s; }
 @media (hover: hover) and (pointer: fine) {
+  .js .portrait-float { animation: gentle-float 9s ease-in-out infinite; }
   .button:hover { transform: translateY(-2px); }
   .button-primary:hover { background: #41413b; }
   .social-card:hover { transform: translateY(-5px); background: #fdf9f3; box-shadow: 0 12px 30px #55453209; }
